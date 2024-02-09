@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import 'dotenv/config';
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5001;
 
 const server = createServer((req, res) => {
   res.statusCode = 200;
