@@ -1,6 +1,7 @@
 export default {
   root: true,
   env: {
+    browser: true,
     node: true,
     jest: true,
   },
