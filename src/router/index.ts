@@ -1,4 +1,4 @@
-import { getUsers } from '../methods/getUsers';
+import { getUsers } from '../controllets/getUsers';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Methods } from '../types/enums';
 import { IUser } from '../types/inteface';
