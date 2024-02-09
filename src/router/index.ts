@@ -4,8 +4,9 @@ import { Messages, Methods, Status } from '../types/enums';
 import { IUser } from '../types/inteface';
 import { handleError } from '../utils/errors';
 import { createUser } from '../controllers/createUser';
+import { deleteUser } from '../controllers/deleteUser';
 
-export const userRouter = (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
+export const userRouter = async (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
   const { url, method } = request;
 
   if (!url) return;
@@ -13,17 +14,17 @@ export const userRouter = (request: IncomingMessage, response: ServerResponse, d
   try {
     switch (method) {
       case Methods.GET:
-        getUsers(response, data, url);
+        await getUsers(response, data, url);
         break;
       case Methods.POST:
-        createUser(request, response, url, data);
+        await createUser(request, response, url, data);
         break;
       // case Methods.PUT:
       //   updateUser(request, response);
       //   break;
-      // case Methods.DELETE:
-      //   deleteUser(request, response);
-      //   break;
+      case Methods.DELETE:
+        deleteUser(response, data, url);
+        break;
       default:
         handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
     }
