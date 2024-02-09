@@ -1,9 +1,11 @@
 import { getUsers } from '../controllets/getUsers';
 import { IncomingMessage, ServerResponse } from 'http';
-import { Methods } from '../types/enums';
+import { Messages, Methods, Status } from '../types/enums';
 import { IUser } from '../types/inteface';
+import { JSON_HEADER } from '../utils/constants';
+import { handleError } from '../utils/errors';
 
-export const Router = (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
+export const userRouter = (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
   const { url, method } = request;
 
   if (!url) return;
@@ -22,9 +24,6 @@ export const Router = (request: IncomingMessage, response: ServerResponse, data:
     //   deleteUser(request, response);
     //   break;
     default:
-      response.statusCode = 404;
-      response.setHeader('Content-Type', 'application/json');
-      response.write(JSON.stringify({ title: 'Not found', message: 'Not found' }));
-      response.end();
+      handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
   }
 };
