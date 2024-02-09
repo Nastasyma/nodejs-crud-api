@@ -1,11 +1,11 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import { ServerResponse } from 'node:http';
 import { IUser } from '../types/inteface';
 import { handleError } from '../utils/errors';
 import { Messages, Status } from '../types/enums';
 import { BASE_URL, JSON_HEADER } from '../utils/constants';
 import { validate } from 'uuid';
 
-export const deleteUser = (response: ServerResponse, data: IUser[], url: string) => {
+export const deleteUser = async (response: ServerResponse, data: IUser[], url: string) => {
   if (url && url.startsWith(`${BASE_URL}/`)) {
     const id = url.split('/')[3];
 

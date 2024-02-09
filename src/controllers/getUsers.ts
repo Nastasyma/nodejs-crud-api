@@ -1,4 +1,4 @@
-import { ServerResponse } from 'http';
+import { ServerResponse } from 'node:http';
 import { validate } from 'uuid';
 import { BASE_URL, JSON_HEADER } from '../utils/constants';
 import { IUser } from '../types/inteface';

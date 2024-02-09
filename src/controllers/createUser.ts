@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage, ServerResponse } from 'node:http';
 import { v4 } from 'uuid';
 import { Messages, Status } from '../types/enums';
 import { IUser } from '../types/inteface';

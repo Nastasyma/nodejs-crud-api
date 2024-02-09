@@ -1,4 +1,4 @@
-import { ServerResponse } from 'http';
+import { ServerResponse } from 'node:http';
 
 export const handleError = (response: ServerResponse, message: string, status: number): void => {
   response.writeHead(status, { 'Content-Type': 'application/json' });

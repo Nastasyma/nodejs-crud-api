@@ -1,10 +1,11 @@
 import { getUsers } from '../controllers/getUsers';
-import { IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage, ServerResponse } from 'node:http';
 import { Messages, Methods, Status } from '../types/enums';
 import { IUser } from '../types/inteface';
 import { handleError } from '../utils/errors';
 import { createUser } from '../controllers/createUser';
 import { deleteUser } from '../controllers/deleteUser';
+import { updateUser } from '../controllers/updateUser';
 
 export const userRouter = async (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
   const { url, method } = request;
@@ -19,11 +20,11 @@ export const userRouter = async (request: IncomingMessage, response: ServerRespo
       case Methods.POST:
         await createUser(request, response, url, data);
         break;
-      // case Methods.PUT:
-      //   updateUser(request, response);
-      //   break;
+      case Methods.PUT:
+        await updateUser(request, response, url, data);
+        break;
       case Methods.DELETE:
-        deleteUser(response, data, url);
+        await deleteUser(response, data, url);
         break;
       default:
         handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);

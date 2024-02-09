@@ -1,4 +1,4 @@
-import { IncomingMessage } from "http";
+import { IncomingMessage } from "node:http";
 
 export const getJsonBody = (request: IncomingMessage) => {
   return new Promise((resolve, reject) => {
