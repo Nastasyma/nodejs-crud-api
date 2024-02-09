@@ -1,13 +1,14 @@
-import { createServer } from "node:http";
+import { IncomingMessage, ServerResponse, createServer } from 'node:http';
 import 'dotenv/config';
+import { Router } from './router';
+import { IUser } from './types/inteface';
 
 const PORT = process.env.PORT || 5001;
 
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.write(JSON.stringify({ message: "Node CRUD API" }));
-  res.end();
+const users: IUser[] = [];
+
+const server = createServer((req: IncomingMessage, res: ServerResponse) => {
+  Router(req, res, users);
 });
 
 server.listen(PORT, () => {

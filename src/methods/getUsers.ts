@@ -1,6 +1,6 @@
-import { IUser } from '@/types/inteface';
-import { BASE_URL } from '@/utils/constants';
 import { ServerResponse } from 'http';
+import { BASE_URL } from '../utils/constants';
+import { IUser } from '../types/inteface';
 
 export const getUsers = (url: string, response: ServerResponse, users: IUser[]) => {
   if (url === BASE_URL) {

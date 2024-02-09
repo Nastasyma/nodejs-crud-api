@@ -1,7 +1,7 @@
-import { getUsers } from '@/methods/getUsers';
-import { Methods } from '@/types/enums';
-import { IUser } from '@/types/inteface';
+import { getUsers } from '../methods/getUsers';
 import { IncomingMessage, ServerResponse } from 'http';
+import { Methods } from '../types/enums';
+import { IUser } from '../types/inteface';
 
 export const Router = (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
   const { url, method } = request;
