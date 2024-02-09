@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "RSS task: simple CRUD API using in-memory database underneath",
   "main": "index.js",
-  "type": "module",
   "engines": {
     "node": ">=20.0.0"
   },
