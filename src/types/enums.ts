@@ -11,6 +11,7 @@ export const enum Messages {
   INTERNAL_SERVER_ERROR = 'Internal server error',
   INVALID_ID = 'Invalid ID',
   INVALID_ENDPOINT = 'Invalid endpoint',
+  INVALID_JSON = 'Invalid JSON',
   REQUARED_FIELD = 'All fields are required',
 }
 
