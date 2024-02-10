@@ -31,6 +31,6 @@ export const createUser = async (
       handleError(response, Messages.INVALID_JSON, Status.BAD_REQUEST);
     }
   } else {
-    handleError(response, Messages.INVALID_ENDPOINT, Status.BAD_REQUEST);
+    handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
   }
 };

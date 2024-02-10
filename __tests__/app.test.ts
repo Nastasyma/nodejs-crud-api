@@ -72,3 +72,127 @@ describe('CRUD operations tests', () => {
     expect(response.body).toEqual([]);
   });
 });
+
+describe('Validation tests', () => {
+  afterAll((done) => {
+    server.close(() => {
+      done();
+    });
+  });
+
+  test("Shouldn't create a user with invalid username", async () => {
+    const invalidUser = { username: ['Vasya'], age: 25, hobbies: ['cooking'] };
+    const response = await request(server)
+      .post(BASE_URL)
+      .set('Accept', 'application/json')
+      .send(invalidUser);
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+
+  test("Shouldn't create a user with invalid age", async () => {
+    const invalidUser = { username: 'Vasya', age: '25', hobbies: ['cooking'] };
+    const response = await request(server)
+      .post(BASE_URL)
+      .set('Accept', 'application/json')
+      .send(invalidUser);
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+
+  test("Shouldn't create a user with invalid hobbies", async () => {
+    const invalidUser = { username: 'Vasya', age: 25, hobbies: [25] };
+    const response = await request(server)
+      .post(BASE_URL)
+      .set('Accept', 'application/json')
+      .send(invalidUser);
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+
+  test("Shouldn't create a user without username", async () => {
+    const invalidUser = { age: 25, hobbies: ['cooking'] };
+    const response = await request(server)
+      .post(BASE_URL)
+      .set('Accept', 'application/json')
+      .send(invalidUser);
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+
+  test("Shouldn't create a user without age", async () => {
+    const invalidUser = { username: 'Vasya', hobbies: ['cooking'] };
+    const response = await request(server)
+      .post(BASE_URL)
+      .set('Accept', 'application/json')
+      .send(invalidUser);
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+
+  test("Shouldn't create a user without hobbies", async () => {
+    const invalidUser = { username: 'Vasya', age: 25 };
+    const response = await request(server)
+      .post(BASE_URL)
+      .set('Accept', 'application/json')
+      .send(invalidUser);
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+});
+
+describe('Handle error tests', () => {
+  afterAll((done) => {
+    server.close(() => {
+      done();
+    });
+  });
+
+  const id = '62a20451-ea21-444e-b37d-107c81015274';
+
+  test('Should return 404 error with invalid endpoint', async () => {
+    const response = await request(server)
+      .get('/invalid_endpoint')
+      .set('Accept', 'application/json');
+    expect(response.status).toBe(Status.NOT_FOUND);
+  });
+
+  test('Should return 404 error with a GET api/users/id request if the user does not exist', async () => {
+    const response = await request(server)
+      .get(`${BASE_URL}/${id}`)
+      .set('Accept', 'application/json');
+    expect(response.status).toBe(Status.NOT_FOUND);
+  });
+
+  test('Should return 404 error with a DELETE api/users/id request if the user does not exist', async () => {
+    const response = await request(server)
+      .delete(`${BASE_URL}/${id}`)
+      .set('Accept', 'application/json');
+    expect(response.status).toBe(Status.NOT_FOUND);
+  });
+
+  test('Should return 404 error with a PUT api/users/id request if the user does not exist', async () => {
+    const response = await request(server)
+      .put(`${BASE_URL}/${id}`)
+      .set('Accept', 'application/json')
+      .send(updatedUser);
+    expect(response.status).toBe(Status.NOT_FOUND);
+  });
+
+  test('Should return 400 error with a GET api/users/invalid_id request', async () => {
+    const response = await request(server)
+      .get(`${BASE_URL}/invalid_id`)
+      .set('Accept', 'application/json');
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+
+  test('Should return 400 error with a DELETE api/users/invalid_id request', async () => {
+    const response = await request(server)
+      .delete(`${BASE_URL}/invalid_id`)
+      .set('Accept', 'application/json');
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+
+  test('Should return 400 error with a POST api/users request with invalid json', async () => {
+    const invalidUser = { username: 'Vasya', age: '25', hobbies: ['cooking'] };
+    const response = await request(server)
+      .post(BASE_URL)
+      .set('Accept', 'application/json')
+      .send(invalidUser);
+    expect(response.status).toBe(Status.BAD_REQUEST);
+  });
+});

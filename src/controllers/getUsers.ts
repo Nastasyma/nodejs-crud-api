@@ -24,6 +24,6 @@ export const getUsers = async (response: ServerResponse, users: IUser[], url: st
       response.end();
     }
   } else {
-    handleError(response, Messages.INVALID_ENDPOINT, Status.BAD_REQUEST);
+    handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
   }
 };

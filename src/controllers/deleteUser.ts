@@ -22,6 +22,6 @@ export const deleteUser = async (response: ServerResponse, data: IUser[], url: s
       response.end();
     }
   } else {
-    handleError(response, Messages.INVALID_ENDPOINT, Status.BAD_REQUEST);
+    handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
   }
 };
