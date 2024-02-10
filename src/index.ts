@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5001;
 
 const users: IUser[] = [];
 
-const server = createServer((req: IncomingMessage, res: ServerResponse) => {
+export const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   userRouter(req, res, users);
 });
 
