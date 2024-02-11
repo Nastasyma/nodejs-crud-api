@@ -13,7 +13,7 @@ export const createUser = async (
   url: string,
   data: IUser[]
 ) => {
-  if (url === BASE_URL) {
+  if (url === BASE_URL || url === `${BASE_URL}/`) {
     try {
       const body: IUser = (await getJsonBody(request)) as IUser;
 

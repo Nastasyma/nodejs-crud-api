@@ -6,7 +6,7 @@ import { handleError } from '../utils/errors';
 import { Messages, Status } from '../types/enums';
 
 export const getUsers = async (response: ServerResponse, users: IUser[], url: string) => {
-  if (url === BASE_URL) {
+  if (url === BASE_URL || url === `${BASE_URL}/`) {
     response.writeHead(Status.OK, JSON_HEADER);
     response.write(JSON.stringify(users));
     response.end();
