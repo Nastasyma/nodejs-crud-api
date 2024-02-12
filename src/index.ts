@@ -5,7 +5,7 @@ import { IUser } from './types/inteface';
 import { balancer, isMulti } from './balancer';
 
 const PORT: number = Number(process.env.PORT || 4000);
-let users: IUser[] = [];
+const users: IUser[] = [];
 
 export const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   userRouter(req, res, users);

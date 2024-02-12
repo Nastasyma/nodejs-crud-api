@@ -13,7 +13,7 @@ export const userRouter = async (request: IncomingMessage, response: ServerRespo
   if (isMulti() && cluster.isWorker) {
     console.log(`Request: ${request.method} ${request.url} - Worker #${process.pid} on port ${process.env.WORKER_PORT}`);
   } else {
-    console.log(`Request: ${request.method} ${request.url} - Server #${process.pid} on port ${process.env.PORT}`);
+    console.log(`Request: ${request.method} ${request.url} - Server #${process.pid} on port ${process.env.PORT || 4000}`);
   }
 
   const { url, method } = request;
