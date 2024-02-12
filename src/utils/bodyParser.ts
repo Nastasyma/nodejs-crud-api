@@ -2,7 +2,7 @@ import { IncomingMessage } from "node:http";
 
 export const getJsonBody = (request: IncomingMessage) => {
   return new Promise((resolve, reject) => {
-    let data: Buffer[] = [];
+    const data: Buffer[] = [];
     request.on('data', (chunk) => {
       data.push(chunk);
     });
