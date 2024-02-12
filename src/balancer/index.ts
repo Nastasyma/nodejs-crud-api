@@ -53,6 +53,12 @@ const startPrimaryServer = (PORT: number) => {
         }
       );
 
+      childRequest.on('response', (childRes) => {
+        console.log('child', childRes.statusCode);
+        console.log('parent', response.statusCode);
+        response.statusCode = childRes.statusCode!;
+      });
+
       childRequest.on('error', () =>
         handleError(response, Messages.INTERNAL_SERVER_ERROR, Status.INTERNAL_SERVER_ERROR)
       );
