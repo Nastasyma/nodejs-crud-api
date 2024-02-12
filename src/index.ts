@@ -3,6 +3,8 @@ import 'dotenv/config';
 import { userRouter } from './router';
 import { IUser } from './types/inteface';
 import { balancer, isMulti } from './balancer';
+import { ConsoleMessage } from './utils/coloredMsgs';
+
 
 const PORT: number = Number(process.env.PORT || 4000);
 const users: IUser[] = [];
@@ -15,7 +17,7 @@ if (isMulti()) {
   balancer(PORT, server);
 } else {
   server.listen(PORT, () => {
-    console.log(`Server #${process.pid} is running on port ${PORT}.`);
+    ConsoleMessage.yellow(`Server #${process.pid} is running on port ${PORT}.`);
   });
 }
 

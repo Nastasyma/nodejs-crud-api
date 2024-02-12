@@ -4,6 +4,7 @@ import { cpus } from 'node:os';
 import { IncomingMessage, ServerResponse, createServer, request as httpRequest } from 'http';
 import { handleError } from '../utils/errors';
 import { Messages, Status } from '../types/enums';
+import { ConsoleMessage } from '../utils/coloredMsgs';
 
 const getWorkerPort = (i: number, PORT: number) => {
   return (PORT + i + 1).toString();
@@ -64,7 +65,7 @@ const startPrimaryServer = (PORT: number) => {
   });
 
   primaryServer.listen(PORT, () => {
-    console.log(`Balancer #${process.pid} is listening port ${PORT}`);
+    ConsoleMessage.yellow(`Balancer #${process.pid} is listening port ${PORT}`);
   });
 };
 
@@ -76,7 +77,7 @@ const startWorkerServer = (server: Server) => {
   }
 
   server.listen(workerPort, () =>
-    console.log(`Worker #${process.pid} is running on port ${workerPort}`)
+  ConsoleMessage.magenta(`Worker #${process.pid} is running on port ${workerPort}`)
   );
 };
 
