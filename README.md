@@ -10,22 +10,18 @@ The task is to implement simple CRUD API using in-memory database underneath.
 ### Installation
 
 - Clone the repo
-
   ```sh
   git clone https://github.com/Nastasyma/nodejs-crud-api.git
   ```
 - Change the directory
-
   ```sh
   cd nodejs-crud-api
   ```
 - Change the branch
-
   ```sh
   git checkout develop
   ```
 - Install NPM packages
-
   ```sh
   npm install
   ```
@@ -49,11 +45,35 @@ The task is to implement simple CRUD API using in-memory database underneath.
   ```sh
   npm run lint
   ```
-- Run tests using Jest.
-  ```js
+- Run tests using Jest.  
+  **Warning!** Stop all production or development server before run tests.
+  ```sh
   npm run test
   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Port
+
+- Rename the .env.example file to .env.
+- Open the .env file and set the desired port by adding the following line:
+  ```sh
+  PORT=4000
+  ```
+  Replace 4000 with your preferred port number.
+
+## Example of request body
+  ```sh
+  {
+    "username": "Emily",
+    "age": 25,
+    "hobbies": [
+      "paint",
+      "travel"
+    ]
+  }
+  ```
+
+  <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Implementation details
   - **GET** `api/users` is used to get all persons
@@ -91,12 +111,3 @@ The task is to implement simple CRUD API using in-memory database underneath.
     4. Fourth `GET` request addressed to `localhost:4001/api` should return **404** status code for created user
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Example of request body
-```sh
-{
-  "username": "Emily",
-  "age": 25,
-  "hobbies": ["paint", "travel"]
-}
-```
