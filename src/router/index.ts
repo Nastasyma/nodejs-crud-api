@@ -1,19 +1,27 @@
-import { getUsers } from '../controllers/getUsers';
+import cluster from 'node:cluster';
 import { IncomingMessage, ServerResponse } from 'node:http';
+import { isMulti } from '../balancer';
+import { createUser } from '../controllers/createUser';
+import { deleteUser } from '../controllers/deleteUser';
+import { getUsers } from '../controllers/getUsers';
+import { updateUser } from '../controllers/updateUser';
 import { Messages, Methods, Status } from '../types/enums';
 import { IUser } from '../types/inteface';
 import { handleError } from '../utils/errors';
-import { createUser } from '../controllers/createUser';
-import { deleteUser } from '../controllers/deleteUser';
-import { updateUser } from '../controllers/updateUser';
-import cluster from 'node:cluster';
-import { isMulti } from '../balancer';
 
-export const userRouter = async (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
+export const userRouter = async (
+  request: IncomingMessage,
+  response: ServerResponse,
+  data: IUser[]
+) => {
   if (isMulti() && cluster.isWorker) {
-    console.log(`Request: ${request.method} ${request.url} - Worker #${process.pid} on port ${process.env.WORKER_PORT}`);
+    console.log(
+      `Request: ${request.method} ${request.url} - Worker #${process.pid} on port ${process.env.WORKER_PORT}`
+    );
   } else {
-    console.log(`Request: ${request.method} ${request.url} - Server #${process.pid} on port ${process.env.PORT || 4000}`);
+    console.log(
+      `Request: ${request.method} ${request.url} - Server #${process.pid} on port ${process.env.PORT || 4000}`
+    );
   }
 
   const { url, method } = request;

@@ -1,13 +1,13 @@
+import cluster from 'cluster';
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { v4 } from 'uuid';
+import { usersDB } from '..';
 import { Messages, Status } from '../types/enums';
 import { IUser } from '../types/inteface';
 import { getJsonBody } from '../utils/bodyParser';
 import { BASE_URL, JSON_HEADER } from '../utils/constants';
 import { handleError } from '../utils/errors';
 import { isValidUserData } from '../utils/validateData';
-import cluster from "cluster";
-import { usersDB } from '..';
 
 export const createUser = async (
   request: IncomingMessage,

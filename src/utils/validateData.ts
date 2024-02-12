@@ -1,4 +1,4 @@
-import { IUser } from "../types/inteface";
+import { IUser } from '../types/inteface';
 
 export const isValidUserData = (user: IUser) => {
   return (

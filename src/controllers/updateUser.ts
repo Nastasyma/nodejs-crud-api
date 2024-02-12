@@ -1,19 +1,19 @@
+import cluster from 'cluster';
 import { IncomingMessage, ServerResponse } from 'node:http';
-import { IUser } from '../types/inteface';
-import { handleError } from '../utils/errors';
-import { BASE_URL, JSON_HEADER } from '../utils/constants';
-import { Messages, Status } from '../types/enums';
-import { getJsonBody } from '../utils/bodyParser';
-import { isValidUserData } from '../utils/validateData';
 import { validate } from 'uuid';
 import { usersDB } from '..';
-import cluster from 'cluster';
+import { Messages, Status } from '../types/enums';
+import { IUser } from '../types/inteface';
+import { getJsonBody } from '../utils/bodyParser';
+import { BASE_URL, JSON_HEADER } from '../utils/constants';
+import { handleError } from '../utils/errors';
+import { isValidUserData } from '../utils/validateData';
 
 export const updateUser = async (
   request: IncomingMessage,
   response: ServerResponse,
   url: string,
-  data: IUser[],
+  data: IUser[]
 ) => {
   if (url && url.startsWith(`${BASE_URL}/`)) {
     try {
@@ -33,7 +33,7 @@ export const updateUser = async (
           return;
         }
 
-        const userIndex = data.findIndex((user) => user.id === id)
+        const userIndex = data.findIndex((user) => user.id === id);
 
         data[userIndex] = { ...body, id: user.id };
 

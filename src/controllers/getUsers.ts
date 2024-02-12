@@ -1,9 +1,9 @@
 import { ServerResponse } from 'node:http';
 import { validate } from 'uuid';
-import { BASE_URL, JSON_HEADER } from '../utils/constants';
-import { IUser } from '../types/inteface';
-import { handleError } from '../utils/errors';
 import { Messages, Status } from '../types/enums';
+import { IUser } from '../types/inteface';
+import { BASE_URL, JSON_HEADER } from '../utils/constants';
+import { handleError } from '../utils/errors';
 
 export const getUsers = async (response: ServerResponse, users: IUser[], url: string) => {
   if (url === BASE_URL || url === `${BASE_URL}/`) {
