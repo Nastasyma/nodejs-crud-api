@@ -6,8 +6,16 @@ import { handleError } from '../utils/errors';
 import { createUser } from '../controllers/createUser';
 import { deleteUser } from '../controllers/deleteUser';
 import { updateUser } from '../controllers/updateUser';
+import cluster from 'node:cluster';
+import { isMulti } from '../balancer';
 
 export const userRouter = async (request: IncomingMessage, response: ServerResponse, data: IUser[]) => {
+  if (isMulti() && cluster.isWorker) {
+    console.log(`Request: ${request.method} ${request.url} - Worker #${process.pid} on port ${process.env.WORKER_PORT}`);
+  } else {
+    console.log(`Request: ${request.method} ${request.url} - Server #${process.pid} on port ${process.env.PORT}`);
+  }
+
   const { url, method } = request;
 
   if (!url) return;
