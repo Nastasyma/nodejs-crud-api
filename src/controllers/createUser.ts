@@ -6,6 +6,8 @@ import { getJsonBody } from '../utils/bodyParser';
 import { BASE_URL, JSON_HEADER } from '../utils/constants';
 import { handleError } from '../utils/errors';
 import { isValidUserData } from '../utils/validateData';
+import cluster from "cluster";
+import { usersDB } from '..';
 
 export const createUser = async (
   request: IncomingMessage,
@@ -32,5 +34,9 @@ export const createUser = async (
     }
   } else {
     handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
+  }
+
+  if (cluster.isWorker) {
+    process.send?.(usersDB.getUsers());
   }
 };

@@ -4,6 +4,8 @@ import { handleError } from '../utils/errors';
 import { Messages, Status } from '../types/enums';
 import { BASE_URL, JSON_HEADER } from '../utils/constants';
 import { validate } from 'uuid';
+import cluster from "cluster";
+import { usersDB } from '..';
 
 export const deleteUser = async (response: ServerResponse, data: IUser[], url: string) => {
   if (url && url.startsWith(`${BASE_URL}/`)) {
@@ -23,5 +25,9 @@ export const deleteUser = async (response: ServerResponse, data: IUser[], url: s
     }
   } else {
     handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
+  }
+
+  if (cluster.isWorker) {
+    process.send?.(usersDB.getUsers());
   }
 };

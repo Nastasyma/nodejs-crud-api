@@ -6,6 +6,8 @@ import { Messages, Status } from '../types/enums';
 import { getJsonBody } from '../utils/bodyParser';
 import { isValidUserData } from '../utils/validateData';
 import { validate } from 'uuid';
+import { usersDB } from '..';
+import cluster from 'cluster';
 
 export const updateUser = async (
   request: IncomingMessage,
@@ -44,5 +46,9 @@ export const updateUser = async (
     }
   } else {
     handleError(response, Messages.INVALID_ENDPOINT, Status.NOT_FOUND);
+  }
+
+  if (cluster.isWorker) {
+    process.send?.(usersDB.getUsers());
   }
 };

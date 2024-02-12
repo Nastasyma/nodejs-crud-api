@@ -5,6 +5,7 @@ import { IncomingMessage, ServerResponse, createServer, request as httpRequest }
 import { handleError } from '../utils/errors';
 import { Messages, Status } from '../types/enums';
 import { ConsoleMessage } from '../utils/coloredMsgs';
+import { usersDB } from '..';
 
 const getWorkerPort = (i: number, PORT: number) => {
   return (PORT + i + 1).toString();
@@ -14,7 +15,17 @@ const startPrimaryServer = (PORT: number) => {
   let currentPort = PORT + 1;
 
   for (let i = 0; i < cpus().length; i++) {
-    cluster.fork({ WORKER_PORT: getWorkerPort(i, PORT) });
+    const worker = cluster.fork({ WORKER_PORT: getWorkerPort(i, PORT) });
+    worker.on('message', (message) => {
+      // console.log(message);
+      usersDB.updateUsers(message);
+      for (let j = 0; j < cpus().length; j++) {
+        const currentWorker = cluster.workers && cluster.workers[j + 1];
+        if (currentWorker) {
+          currentWorker.send({ data: usersDB.getUsers() });
+        }
+      }
+    });
   }
 
   const primaryServer = createServer(async (request: IncomingMessage, response: ServerResponse) => {
@@ -56,7 +67,6 @@ const startPrimaryServer = (PORT: number) => {
       request.on('error', () =>
         handleError(response, Messages.INTERNAL_SERVER_ERROR, Status.INTERNAL_SERVER_ERROR)
       );
-
     } catch {
       handleError(response, Messages.INTERNAL_SERVER_ERROR, Status.INTERNAL_SERVER_ERROR);
     }
@@ -77,8 +87,10 @@ const startWorkerServer = (server: Server) => {
   }
 
   server.listen(workerPort, () =>
-  ConsoleMessage.magenta(`Worker #${process.pid} is running on port ${workerPort}`)
+    ConsoleMessage.magenta(`Worker #${process.pid} is running on port ${workerPort}`)
   );
+
+  process.on('message', ({ data }) => usersDB.updateUsers(data));
 };
 
 export const balancer = (PORT: number, server: Server) => {
